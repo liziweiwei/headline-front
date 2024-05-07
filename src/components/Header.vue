@@ -3,8 +3,8 @@
     <!-- 头部左侧区域 -->
     <div class="left">
       <ul>
-        <li @click="HighlightHandler(index,)"  v-for="(item,index) in findAllTypeList" :key="item.tid">
-          <a :class="{ active: item.isHighlight }" href="javascript:;">{{item.tname}}</a>
+        <li @click="HighlightHandler(index,)" v-for="(item,index) in findAllTypeList" :key="item.tid">
+          <a :class="{ active: item.isHighlight }" href="javascript:;">{{ item.tname }}</a>
         </li>
       </ul>
     </div>
@@ -15,55 +15,60 @@
         <!-- <el-button   type="primary">搜索</el-button> -->
       </div>
 
-  
+
       <!-- 用户登录以后的展示 -->
       <div class="btn-dropdown">
-      <!-- 用户没有登录的时候的展示 -->
-     
-      <div v-if="nickName" style="display: flex; justify-content: center; align-items: center;">
-             <el-dropdown>
-          <el-button type="primary">
-          您好:{{ nickName }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
-          </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item @click="handlerNews">发布新闻</el-dropdown-item>
-              <el-dropdown-item>个人中心</el-dropdown-item>
-              <el-dropdown-item>浏览记录</el-dropdown-item>
-              <el-dropdown-item @click="Logout">退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
-       <div v-else class="containerButton">
+        <!-- 用户没有登录的时候的展示 -->
+        <!-- 当nickName存在时显示的布局 -->
+        <div v-if="nickName" style="display: flex; justify-content: center; align-items: center;">
+          <el-dropdown>
+            <el-button type="primary">
+              您好:{{ nickName }}
+              <el-icon class="el-icon--right">
+                <arrow-down/>
+              </el-icon>
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item @click="handlerNews">发布新闻</el-dropdown-item>
+                <el-dropdown-item>个人中心</el-dropdown-item>
+                <el-dropdown-item>浏览记录</el-dropdown-item>
+                <el-dropdown-item @click="Logout">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
+        <div v-else class="containerButton">
           <el-button size="small" style="background: #212529; color: #aea7a2" @click="toLogin">登录</el-button>
           <el-button size="small" style="background: #ffc107; color: #684802" @click="toRegister">注册</el-button>
         </div>
-      
+
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import {defineComponent} from 'vue'
+
 export default defineComponent({
   name: 'Header'
 })
 </script>
 
 <script setup>
-import { getfindAllTypes, isUserOverdue } from '../api/index'
-import { ref, onMounted , getCurrentInstance ,watch, onUpdated} from "vue"
-import { useRouter } from 'vue-router'
-import { ArrowDown } from '@element-plus/icons-vue'
-import { removeToken } from '../utils/token-utils' 
+import {getfindAllTypes, isUserOverdue} from '../api/index'
+import {ref, onMounted, getCurrentInstance, watch, onUpdated} from "vue"
+import {useRouter} from 'vue-router'
+import {ArrowDown} from '@element-plus/icons-vue'
+import {removeToken} from '../utils/token-utils'
 import pinia from '../stores/index';
-import { useUserInfoStore } from '../stores/userInfo'
+import {useUserInfoStore} from '../stores/userInfo'
+
 const userInfoStore = useUserInfoStore(pinia)
 const nickName = ref("")
 // 获取到 全局事件总线
-const { Bus } = getCurrentInstance().appContext.config.globalProperties
+const {Bus} = getCurrentInstance().appContext.config.globalProperties
 const router = useRouter()
 const keywords = ref("") // 收集搜索最新头条参数
 //监视搜索参数的变化 ,当搜索参数变化的时候给HeadlineNews组件传递数据
@@ -72,11 +77,11 @@ watch(keywords, (newVal) => {
 })
 const findAllTypeList = ref([])//所有头条分类
 const toLogin = () => {
-router.push({ name: "Login" });
+  router.push({name: "Login"});
 }
 //点击去注册页面
 const toRegister = () => {
-  router.push({ name: "Register" });
+  router.push({name: "Register"});
 }
 const getList = async () => {
   let result = await getfindAllTypes()
@@ -90,7 +95,7 @@ const getList = async () => {
   result.unshift({
     isHighlight: true,
     tid: 0,
-    tname: "微头条"
+    tname: "每日头条"
   })
   findAllTypeList.value = result
 }
@@ -114,17 +119,22 @@ const HighlightHandler = (index) => {
 
 // 点击退出登录的回调
 const Logout = () => {
+  // 移除用户令牌
   removeToken()
+  // 重置用户信息
   userInfoStore.initUserInfo()
+  // 清空用户昵称
   nickName.value = ""
-  router.go({ name: "HeadlineNews" });
+  // router.push 用于导航到未在历史记录中的新位置，而 router.go 用于在已经存在的历史记录之间移动
+  // router.go({name: "HeadlineNews"});
+  router.push({name: "HeadlineNews"});
 }
 
-//点击发布新闻的回调
+// 点击发布新闻的回调
 const handlerNews = async () => {
-  //发送请求判断用户是否token过期
+  // 发送请求判断用户是否token过期
   await isUserOverdue()
-  router.push({ name: "addOrModifyNews" });
+  router.push({name: "addOrModifyNews"});
 }
 </script>
 
@@ -134,7 +144,7 @@ const handlerNews = async () => {
   width: 100px;
 }
 
-.el-dropdown+.el-dropdown {
+.el-dropdown + .el-dropdown {
   margin-left: 15px;
 }
 
@@ -150,15 +160,19 @@ const handlerNews = async () => {
   background: #212529;
   display: flex;
   justify-content: space-around;
+
   .left {
     ul {
       display: flex;
+
       li {
         list-style: none;
         margin-left: 20px;
+
         a:-webkit-any-link {
           text-decoration: none;
           color: #59646b;
+
           &.active {
             color: #c0adab;
           }
@@ -166,26 +180,32 @@ const handlerNews = async () => {
       }
     }
   }
+
   .right {
     .containerButton {
       display: flex;
       align-items: center;
     }
+
     line-height: 60px;
     display: flex;
     flex-wrap: nowrap;
+
     .rightInput {
       display: flex;
-       align-items: center;
+      align-items: center;
+
       :deep(.el-input__inner) {
         height: 30px;
         width: 150px;
       }
     }
-    .btn-dropdown{
+
+    .btn-dropdown {
       display: flex;
       align-items: center;
     }
+
     :deep(.el-button) {
       margin: 0 0 0 10px;
       display: flex;
@@ -199,6 +219,7 @@ const handlerNews = async () => {
 .example-showcase .el-dropdown + .el-dropdown {
   margin-left: 15px;
 }
+
 .example-showcase .el-dropdown-link {
   cursor: pointer;
   color: var(--el-color-primary);

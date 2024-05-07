@@ -7,7 +7,7 @@
       <el-form-item style="margin: 50px 0;" label="文章内容" prop="article">
         <el-input v-model="formData.article" type="textarea" rows="8"></el-input>
       </el-form-item>
-      <el-form-item label="文章内容"  prop="type">
+      <el-form-item label="文章内容" prop="type">
         <el-select v-model="formData.type" placeholder="请选择文章类别">
           <el-option v-for="item in article" :label="item.name" :value="item.type">
           </el-option>
@@ -15,27 +15,29 @@
       </el-form-item>
     </el-form>
     <el-form-item>
-      <el-button   @click="handlerCancel">取消</el-button>
-      <el-button type="primary"  @click="handlerSave">保存</el-button>
+      <el-button type="primary" @click="handlerSave">保存</el-button>
+      <el-button @click="handlerCancel">取消</el-button>
     </el-form-item>
   </el-card>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import { isUserOverdue } from '../../api/index'
+import {defineComponent} from 'vue'
+import {isUserOverdue} from '../../api/index'
+
 export default defineComponent({
   name: 'AddNews'
 })
 </script>
-<script  setup>
-import { getFindHeadlineByHid , saveOrAddNews, issueNews } from "../../api/index"
-import { ref, onMounted } from "vue"
-import { useRoute } from 'vue-router'
-import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-const router = useRouter() 
-const route = useRoute() 
+<script setup>
+import {getFindHeadlineByHid, saveOrAddNews, issueNews} from "../../api/index"
+import {ref, onMounted} from "vue"
+import {useRoute} from 'vue-router'
+import {useRouter} from 'vue-router'
+import {ElMessage} from 'element-plus'
+
+const router = useRouter()
+const route = useRoute()
 
 
 const formRef = ref()
@@ -61,18 +63,18 @@ const validateTitle = (rule, value, callback) => {
     callback()
   } else {
     callback(new Error('文章类别是必须的'))
-}
+  }
 }
 // 校验规则
 const newsRules = {
-  title: [{ required: true, trigger: 'blur', validator: validateTitle }],
-  article: [{ required: true, trigger: 'blur', validator: validateArticle }],
-  type: [{ required: true, validator: validateType }],
+  title: [{required: true, trigger: 'blur', validator: validateTitle}],
+  article: [{required: true, trigger: 'blur', validator: validateArticle}],
+  type: [{required: true, validator: validateType}],
 }
 
 
 const formData = ref({
-  hid:null,
+  hid: null,
   title: "",   // 文章标题
   article: "", // 文章内容
   type: ""     // 文章类别
@@ -102,12 +104,12 @@ const article = [
 ]
 // 如果是点击修改的话 路由就会携带hid参数  就要发送请求 获取数据回显
 const clickModifyEcho = async () => {
-  if (!route.query.hid)  return
-    let result = await getFindHeadlineByHid(route.query.hid)
-    formData.value.title = result.headline.title
+  if (!route.query.hid) return
+  let result = await getFindHeadlineByHid(route.query.hid)
+  formData.value.title = result.headline.title
   formData.value.article = result.headline.article
-     
-    formData.value.type = result.headline.type === 1 ? "新闻" : result.headline.type === 2 ? "体育" : result.headline.type === 3 ? "娱乐" : result.headline.type === 4 ? "科技" : "其他" 
+
+  formData.value.type = result.headline.type === 1 ? "新闻" : result.headline.type === 2 ? "体育" : result.headline.type === 3 ? "娱乐" : result.headline.type === 4 ? "科技" : "其他"
 }
 //页面挂载生命周期
 onMounted(() => {
@@ -120,35 +122,35 @@ const handlerCancel = () => {
 //点击保存的回调
 const handlerSave = async () => {
   await formRef.value?.validate()
-    //发送请求判断用户是否token过期
+  //发送请求判断用户是否token过期
   await isUserOverdue()
-const Obj = {...formData.value}
+  const Obj = {...formData.value}
 
   //整理请求参数
 //  Obj.hid = userInfoStore.uid.toString()  //添加用户id 让后端知道谁添加的
- Obj.hid = route.query.hid  //添加用户id 让后端知道谁添加的
+  Obj.hid = route.query.hid  //添加用户id 让后端知道谁添加的
 // 判断type类型
- if(Obj.type == "新闻" ) Obj.type = "1"
- if(Obj.type == "体育" ) Obj.type = "2"
- if(Obj.type == "娱乐" ) Obj.type = "3"
- if(Obj.type == "科技" ) Obj.type = "4"
- if (Obj.type == "其他") Obj.type = "5"
+  if (Obj.type == "新闻") Obj.type = "1"
+  if (Obj.type == "体育") Obj.type = "2"
+  if (Obj.type == "娱乐") Obj.type = "3"
+  if (Obj.type == "科技") Obj.type = "4"
+  if (Obj.type == "其他") Obj.type = "5"
   //发送请求
   if (route.query.hid) {
     await saveOrAddNews(Obj)
     ElMessage.success("修改成功")
-  }
-  else {
+  } else {
     await issueNews(formData.value)
     ElMessage.success("添加成功")
-    }
-    router.push({ name: "HeadlineNews" });
+  }
+  router.push({name: "HeadlineNews"});
 }
 
 
 </script>
 
 <style lang="less" scoped>
+
 .AddNewsContainer {
   width: 600px;
   margin: 150px auto;
