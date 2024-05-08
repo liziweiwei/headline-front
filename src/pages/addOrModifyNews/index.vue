@@ -111,11 +111,11 @@ const clickModifyEcho = async () => {
 
   formData.value.type = result.headline.type === 1 ? "新闻" : result.headline.type === 2 ? "体育" : result.headline.type === 3 ? "娱乐" : result.headline.type === 4 ? "科技" : "其他"
 }
-//页面挂载生命周期
+// 页面挂载生命周期,加载页面
 onMounted(() => {
   clickModifyEcho()
 })
-//点击取消的回调
+// 点击取消的回调
 const handlerCancel = () => {
   router.back()
 }

@@ -3,7 +3,7 @@
     <!-- 头部左侧区域 -->
     <div class="left">
       <ul>
-        <li @click="HighlightHandler(index,)" v-for="(item,index) in findAllTypeList" :key="item.tid">
+        <li @click="HighlightHandler(index)" v-for="(item,index) in findAllTypeList" :key="item.tid">
           <a :class="{ active: item.isHighlight }" href="javascript:;">{{ item.tname }}</a>
         </li>
       </ul>
@@ -14,16 +14,14 @@
         <el-input v-model="keywords" placeholder="搜索最新头条"></el-input>
         <!-- <el-button   type="primary">搜索</el-button> -->
       </div>
-
-
       <!-- 用户登录以后的展示 -->
       <div class="btn-dropdown">
         <!-- 用户没有登录的时候的展示 -->
         <!-- 当nickName存在时显示的布局 -->
         <div v-if="nickName" style="display: flex; justify-content: center; align-items: center;">
           <el-dropdown>
-            <el-button type="primary">
-              您好:{{ nickName }}
+            <el-button type="primary" style="background: #ffc107; color: #684802;border-color: #ffc107;">
+              您好,{{ nickName }}
               <el-icon class="el-icon--right">
                 <arrow-down/>
               </el-icon>
@@ -39,8 +37,8 @@
           </el-dropdown>
         </div>
         <div v-else class="containerButton">
-          <el-button size="small" style="background: #212529; color: #aea7a2" @click="toLogin">登录</el-button>
-          <el-button size="small" style="background: #ffc107; color: #684802" @click="toRegister">注册</el-button>
+          <el-button style="background: #212529; color: #aea7a2" @click="toLogin">登录</el-button>
+          <el-button style="background: #ffc107; color: #684802" @click="toRegister">注册</el-button>
         </div>
 
       </div>
@@ -107,7 +105,7 @@ onMounted(() => {
   getList()
 })
 
-//点击切换高亮的回调(排他思想)
+// 点击切换高亮的回调(排他思想)
 const HighlightHandler = (index) => {
   findAllTypeList.value.forEach((item) => {
     item.isHighlight = false

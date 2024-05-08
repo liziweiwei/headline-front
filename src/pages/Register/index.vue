@@ -8,7 +8,7 @@
           class="register-form"
           :rules="registerRules"
       >
-        <h2>用户注册</h2>
+        <h2 style=" margin-top:5px ;margin-bottom: 30px">用户注册</h2>
         <el-form-item label="姓名" prop="nickName">
           <el-input
               style='width: 87%;'
@@ -53,9 +53,18 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" color="#626aef" @click="register">注册</el-button>
-          <el-button type="danger" @click="resetForm" style="margin-left:30px">重置</el-button>
-          <el-button type="success" @click="goLogin" style="margin-left:30px">去登录</el-button>
+          <el-button type="primary"
+                     style=" color: #ffffff; background-color: #282726; border-color: #282726;"
+                     @click="register">注册
+          </el-button>
+          <el-button type="danger"
+                     @click="resetForm"
+                     style="margin-left:30px">重置
+          </el-button>
+          <el-button type="success"
+                     style='color: #333333; background-color: #ffc200; border-color: #ffc200; margin-left:30px'
+                     @click="goLogin">去登录
+          </el-button>
         </el-form-item>
       </el-form>
     </div>

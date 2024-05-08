@@ -7,25 +7,28 @@
           <span class="text">{{ item.title }}</span>
         </div>
         <div class="detail">
-          <span>{{
+          <el-tag type="success">{{
               item.type === 1 ? "新闻" : item.type === 2 ? "体育" : item.type === 3 ? "娱乐" : item.type === 4 ? "科技" : "其他"
-            }}</span>
-          <span>{{ item.pageViews }}浏览</span>
-          <span>{{ item.pastHours }}小时前</span>
+            }}
+          </el-tag>
+          <el-tag type="warning">{{ item.pageViews }}浏览</el-tag>
+          <el-tag type="info">{{ item.pastHours }}小时前</el-tag>
         </div>
         <div>
           <el-button @click="toDetail(item.hid)" size="small"
-                     style="background: #198754; margin-left: 15px; color: #bbd3dc">查看全文
+                     style="background: #198754; margin-left: 15px; margin-top: 8px; color: #bbd3dc">查看全文
           </el-button>
-          <el-popconfirm v-if="item.publisher === type" @confirm="handlerDelete(item.hid)"
+          <el-popconfirm v-if="item.publisher === uid" @confirm="handlerDelete(item.hid)"
                          :title="`您确定要删除${item.title}吗?`">
             <template #reference>
-              <el-button size="small" style="background: #dc3545; color: #bbd3dc">删除</el-button>
+              <el-button size="small" style="background: #dc3545; color: #bbd3dc; margin-top: 8px;">删除</el-button>
             </template>
           </el-popconfirm>
 
-          <el-button @click="Modify(item.hid)" v-if="item.publisher === type" size="small"
-                     style="background: #212529; color: #bbd3dc">修改
+          <el-button @click="Modify(item.hid)"
+                     v-if="item.publisher === uid"
+                     size="small"
+                     style="background: #212529; color: #bbd3dc; margin-top: 8px;">修改
           </el-button>
         </div>
       </div>
@@ -64,7 +67,7 @@ import {useUserInfoStore} from '../../stores/userInfo'
 const {Bus} = getCurrentInstance().appContext.config.globalProperties
 const userInfoStore = useUserInfoStore(pinia)
 const router = useRouter()
-const type = userInfoStore.uid
+const uid = userInfoStore.uid
 const findNewsPageInfo = ref(
     {
       keyWords: "", // 搜索标题关键字
@@ -85,20 +88,23 @@ const pageData = ref([{
 }])
 
 
-//接收header组件用户搜索的数据
+// 接收header组件用户搜索的数据
 Bus.on('keyword', (keywords) => {
   findNewsPageInfo.value.keyWords = keywords
 })
+
 // header点击切换高亮的时候传递过来的tid
 Bus.on('tid', (type) => {
   findNewsPageInfo.value.type = type
 })
+
 // 监视初始化参数type的变化,当type发生改变的时候重新发送请求获取列表数据
 watch(() => findNewsPageInfo.value, () => {
   getPageList()
 }, {
   deep: true,
 })
+
 // 初始化请求分页列表数据
 const getPageList = async () => {
   let result = await getfindNewsPageInfo(findNewsPageInfo.value)
@@ -107,10 +113,12 @@ const getPageList = async () => {
   findNewsPageInfo.value.pageSize = result.pageInfo.pageSize
   totalSize.value = +result.pageInfo.totalSize
 }
-// 组件挂载的生命周期钩子
+
+// 组件挂载的生命周期钩子,组件挂载完成后执行的函数
 onMounted(() => {
   getPageList()
 })
+
 // 点击查看全文的回调
 const toDetail = (hid) => {
   router.push({name: "Detail", query: {hid}});
@@ -123,6 +131,7 @@ const handlerDelete = async (id) => {
   //重新获取列表请求
   getPageList()
 }
+
 //点击修改的回调
 const Modify = (hid) => {
   router.push({name: "addOrModifyNews", query: {hid}});
