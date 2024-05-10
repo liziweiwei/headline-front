@@ -4,19 +4,19 @@
       <el-form-item label="文章标题" prop="title">
         <el-input v-model="formData.title" placeholder="请输入标题"></el-input>
       </el-form-item>
-      <el-form-item style="margin: 50px 0;" label="文章内容" prop="article">
-        <el-input v-model="formData.article" type="textarea" rows="8"></el-input>
-      </el-form-item>
-      <el-form-item label="文章内容" prop="type">
+      <el-form-item style="margin: 20px 0;" label="文章类别" prop="type">
         <el-select v-model="formData.type" placeholder="请选择文章类别">
           <el-option v-for="item in article" :label="item.name" :value="item.type">
           </el-option>
         </el-select>
       </el-form-item>
+      <el-form-item style="margin: 20px 0;" label="文章内容" prop="article">
+        <el-input v-model="formData.article" type="textarea" rows="18"></el-input>
+      </el-form-item>
     </el-form>
     <el-form-item>
-      <el-button type="primary" @click="handlerSave">保存</el-button>
-      <el-button @click="handlerCancel">取消</el-button>
+      <el-button type="primary" @click="handlerSave" class="savebtn">保存</el-button>
+      <el-button @click="handlerCancel" class="quitbtn">取消</el-button>
     </el-form-item>
   </el-card>
 </template>
@@ -152,7 +152,27 @@ const handlerSave = async () => {
 <style lang="less" scoped>
 
 .AddNewsContainer {
-  width: 600px;
-  margin: 150px auto;
+  background-color: #F5F7FA;
+  width: 1000px;
+  height: 600px;
+  margin: 50px auto;
+}
+
+.savebtn {
+  background: #212529;
+  color: #efe7e7;
+  border-color: #212529;
+  margin-left: 340px;
+  font-size: 16px;
+  padding: 17px 26px !important;
+}
+
+.quitbtn {
+  background: #F56C6C;
+  color: #efe7e7;
+  border-color: #F56C6C;
+  margin-left: 120px;
+  font-size: 16px;
+  padding: 17px 26px !important;
 }
 </style>

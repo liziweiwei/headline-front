@@ -4,7 +4,9 @@
       <!-- 每一项头条列表 -->
       <div class="containerItem" v-for="item in pageData" :key="item.hid">
         <div>
-          <span class="text">{{ item.title }}</span>
+          <span class="text" style="font-size: 22px;font-weight: 550;">
+            {{ item.title }}
+          </span>
         </div>
         <div class="detail">
           <el-tag type="success">{{
@@ -16,19 +18,21 @@
         </div>
         <div>
           <el-button @click="toDetail(item.hid)" size="small"
-                     style="background: #198754; margin-left: 15px; margin-top: 8px; color: #bbd3dc">查看全文
+                     style="background: #198754; margin-left: 15px; color: #FAFCFF">查看全文
           </el-button>
           <el-popconfirm v-if="item.publisher === uid" @confirm="handlerDelete(item.hid)"
-                         :title="`您确定要删除${item.title}吗?`">
+                         :title="`您确定要删除${item.title}`">
             <template #reference>
-              <el-button size="small" style="background: #dc3545; color: #bbd3dc; margin-top: 8px;">删除</el-button>
+              <el-button size="small" style="background: #dc3545; color: #FAFCFF; float: right; margin-right: 30px">
+                删除
+              </el-button>
             </template>
           </el-popconfirm>
 
           <el-button @click="Modify(item.hid)"
                      v-if="item.publisher === uid"
                      size="small"
-                     style="background: #212529; color: #bbd3dc; margin-top: 8px;">修改
+                     style="background: #212529; color: #FAFCFF; float: right">修改
           </el-button>
         </div>
       </div>
@@ -152,8 +156,12 @@ const Modify = (hid) => {
       margin-top: 20px;
       border-radius: 10px;
       border: 2px solid #ebebeb;
-      width: 600px;
-      height: 120px;
+      width: 1000px;
+      height: 130px;
+
+      .el-button {
+        margin-top: 5px;
+      }
 
       div {
         margin-top: 10px;
@@ -166,8 +174,9 @@ const Modify = (hid) => {
 
       .detail {
         span {
+          margin-top: 7px;
           margin-left: 15px;
-          color: #8b778a;
+          color: #443f44;
           font-size: 14px;
         }
       }

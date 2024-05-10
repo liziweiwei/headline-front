@@ -16,14 +16,18 @@
       </div>
       <!-- 用户登录以后的展示 -->
       <div class="btn-dropdown">
-        <!-- 用户没有登录的时候的展示 -->
-        <!-- 当nickName存在时显示的布局 -->
+        <!-- 用户没有登录的时候的展示,当nickName存在时显示的布局 -->
         <div v-if="nickName" style="display: flex; justify-content: center; align-items: center;">
           <el-dropdown>
-            <el-button type="primary" style="background: #ffc107; color: #684802;border-color: #ffc107;">
-              您好,{{ nickName }}
-              <el-icon class="el-icon--right">
-                <arrow-down/>
+            <el-button type="primary"
+                       style="background: #ffc107; color: #684802;border-color: #ffc107;
+                       height: 35px;
+                       font-size: 16px;
+                       font-weight: 550;
+                       padding: 16px 10px 16px 15px  !important;">
+              {{ nickName }}
+              <el-icon class="el-icon--right" style="margin-left: 20px">
+                <Operation/>
               </el-icon>
             </el-button>
             <template #dropdown>
@@ -154,25 +158,31 @@ const handlerNews = async () => {
 <style lang="less" scoped>
 .headerContainer {
   width: 100%;
-  height: 60px;
+  height: 70px;
   background: #212529;
+  /*background: #212529;*/
   display: flex;
   justify-content: space-around;
 
   .left {
+
     ul {
       display: flex;
+      margin-top: 22px;
 
       li {
         list-style: none;
-        margin-left: 20px;
+        margin-left: 30px;
+        font-size: 18px;
 
         a:-webkit-any-link {
           text-decoration: none;
-          color: #59646b;
+          color: #cad4da;
 
           &.active {
-            color: #c0adab;
+            color: #ffc107;
+            font-size: 20px;
+            font-weight: 550;
           }
         }
       }
@@ -194,8 +204,8 @@ const handlerNews = async () => {
       align-items: center;
 
       :deep(.el-input__inner) {
-        height: 30px;
-        width: 150px;
+        height: 35px;
+        width: 180px;
       }
     }
 
@@ -205,14 +215,14 @@ const handlerNews = async () => {
     }
 
     :deep(.el-button) {
-      margin: 0 0 0 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      margin: 0 0 0 10px; /* 上下左右外边距，顶部0，底部0，右侧0，左侧10px */
+      display: flex; /* 使用弹性布局，使得子元素沿一行排列 */
+      /* 弹性布局的子元素对齐方式设置 */
+      justify-content: center; /* 子元素在主轴（水平方向）上居中对齐 */
+      align-items: center; /* 子元素在交叉轴（垂直方向）上居中对齐 */
     }
   }
 }
-
 
 .example-showcase .el-dropdown + .el-dropdown {
   margin-left: 15px;

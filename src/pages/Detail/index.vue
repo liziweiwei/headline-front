@@ -20,7 +20,23 @@
       </div>
     </div>
     <div style="margin-bottom: 10px; float: right">
-      <span>编辑 : {{ detailList.author }}</span>
+      <span>责任编辑 : {{ detailList.author }}</span>
+    </div>
+    <div>
+      <el-backtop :bottom="100">
+        <div style="
+        height: 100%;
+        width: 100%;
+        background-color: var(--el-bg-color-overlay);
+        box-shadow: var(--el-box-shadow-lighter);
+        text-align: center;
+        line-height: 40px;
+        color: #1989fa;">
+          <el-icon :size="38" style="margin-top: 3px; margin-right: 3px">
+            <Top/>
+          </el-icon>
+        </div>
+      </el-backtop>
     </div>
   </div>
 </template>
@@ -29,7 +45,7 @@
 import {defineComponent} from 'vue'
 
 export default defineComponent({
-  name: 'Detail'
+  name: 'Detail',
 })
 </script>
 <script setup>
