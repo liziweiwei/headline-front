@@ -173,10 +173,10 @@ const toRegister = () => {
   align-items: center;
   height: 100vh;
   /*background: #b5c2de;*/
-  background-image: url('image/earth-modified.jpg');
-  background-size: cover; /* 背景图片覆盖整个容器，可能会裁剪图片 */
-  background-position: center center;
-  background-repeat: no-repeat;
+  /*  background-image: url('image/earth-modified.jpg');
+    background-size: cover; !* 背景图片覆盖整个容器，可能会裁剪图片 *!
+    background-position: center center;
+    background-repeat: no-repeat;*/
 }
 
 .login-box {

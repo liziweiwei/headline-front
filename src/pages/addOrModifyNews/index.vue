@@ -11,12 +11,21 @@
         </el-select>
       </el-form-item>
       <el-form-item style="margin: 20px 0;" label="文章内容" prop="article">
-        <el-input v-model="formData.article" type="textarea" rows="18"></el-input>
+        <el-input v-model="formData.article"
+                  type="textarea"
+                  class="custom-textarea"
+                  rows="18"></el-input>
       </el-form-item>
     </el-form>
     <el-form-item>
       <el-button type="primary" @click="handlerSave" class="savebtn">保存</el-button>
       <el-button @click="handlerCancel" class="quitbtn">取消</el-button>
+      <el-button v-if="!loading" @click="handlePolish" class="edidbtn">润色</el-button>
+      <el-button v-if='loading' type="primary" class="edidbtn">
+        <span slot="loading">
+          <span>润色中...</span>
+        </span>
+      </el-button>
     </el-form-item>
   </el-card>
 </template>
@@ -26,11 +35,22 @@ import {defineComponent} from 'vue'
 import {isUserOverdue} from '../../api/index'
 
 export default defineComponent({
-  name: 'AddNews'
+  name: 'AddNews',
+  // data() {
+  //   return {
+  //     loading: false,
+  //   }
+  // },
+  // methods: {
+  //   handlePolish() {
+  //     this.loading = true
+  //   }
+  // }
 })
 </script>
+
 <script setup>
-import {getFindHeadlineByHid, saveOrAddNews, issueNews} from "../../api/index"
+import {getFindHeadlineByHid, saveOrAddNews, issueNews, getHeadlinePolish} from "../../api/index"
 import {ref, onMounted} from "vue"
 import {useRoute} from 'vue-router'
 import {useRouter} from 'vue-router'
@@ -72,7 +92,6 @@ const newsRules = {
   type: [{required: true, validator: validateType}],
 }
 
-
 const formData = ref({
   hid: null,
   title: "",   // 文章标题
@@ -102,6 +121,20 @@ const article = [
     name: "其他"
   }
 ]
+
+const loading = ref(false)
+// 润色文章
+const handlePolish = async () => {
+  loading.value = true
+  let result = await getHeadlinePolish(route.query.hid)
+  formData.value.article = result.headlinepolish
+  ElMessage({
+    showClose: true,
+    message: '新闻润色完成！',
+    type: 'success',
+  })
+  loading.value = false
+}
 // 如果是点击修改的话 路由就会携带hid参数  就要发送请求 获取数据回显
 const clickModifyEcho = async () => {
   if (!route.query.hid) return
@@ -154,17 +187,24 @@ const handlerSave = async () => {
 .AddNewsContainer {
   background-color: #F5F7FA;
   width: 1000px;
-  height: 600px;
-  margin: 50px auto;
+  height: 720px;
+  margin: 10px auto;
 }
 
 .savebtn {
   background: #212529;
   color: #efe7e7;
   border-color: #212529;
-  margin-left: 340px;
+  margin-left: 255px;
   font-size: 16px;
   padding: 17px 26px !important;
+
+  &:hover,
+  &:focus {
+    background-color: #524f4f;
+    color: #ffffff;
+    border-color: #524f4f;
+  }
 }
 
 .quitbtn {
@@ -174,5 +214,41 @@ const handlerSave = async () => {
   margin-left: 120px;
   font-size: 16px;
   padding: 17px 26px !important;
+
+  &:hover,
+  &:focus {
+    background: #deb1b1;
+    color: #efe7e7;
+    border-color: #deb1b1;
+  }
 }
+
+.edidbtn {
+  background: #ffc200;
+  color: #000000;
+  border-color: #ffc200;
+  margin-left: 120px;
+  font-size: 16px;
+  /*font-weight: 600;*/
+  padding: 17px 24px !important;
+
+  &:hover,
+  &:focus {
+    background: #e0cf98;
+    color: #000000;
+    border-color: #e0cf98;
+  }
+}
+
+/* 在你的CSS文件中定义样式 */
+.custom-textarea {
+  font-size: 19px; /* 根据需要修改字体大小 */
+  font-family: 宋体;
+  line-height: 1.5;
+  font-weight: 600;
+  resize: vertical; /* 允许用户根据需要调整大小 */
+  overflow: auto; /* 确保有滚动条 */
+  border-radius: 12px; /* 设置圆角*/
+}
+
 </style>

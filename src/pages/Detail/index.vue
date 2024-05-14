@@ -12,7 +12,7 @@
         </span>
         </div>
       </div>
-      <div style="width: 860px; margin: 0px 0px 0px 0px">
+      <div style="width: 900px; margin: 0px 0px 0px 0px">
         <p>
           {{ detailList.article }}
         </p>
@@ -86,7 +86,7 @@ import {ref, onMounted} from "vue"
 import {useRoute} from 'vue-router'
 
 const route = useRoute() // 路由信息对象
-const detailList = ref({}) //详情数据
+const detailList = ref({}) // 详情数据
 
 // 获取详情初始化数据
 const getDetailList = async () => {
@@ -103,12 +103,12 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .Details {
-  width: 860px;
+  width: 900px;
   margin: 0 auto;
 }
 
 .seeDetails {
-  width: 860px;
+  width: 900px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

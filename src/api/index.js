@@ -86,6 +86,18 @@ export const getHeadlineSummary = (id) => {
     });
 }
 
+// 对新闻做润色
+export const getHeadlinePolish = (id) => {
+    return request({
+        method: "post",
+        url: "ai/polish",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        },
+        data: `hid=${id}`
+    });
+}
+
 // 点击保存修改的回调
 export const saveOrAddNews = (news) => {
     return request.post("headline/update", news)
