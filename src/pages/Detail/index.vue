@@ -12,17 +12,26 @@
         </span>
         </div>
       </div>
-
       <div style="width: 860px; margin: 0px 0px 0px 0px">
         <p>
           {{ detailList.article }}
         </p>
       </div>
     </div>
-    <div style="margin-bottom: 10px; float: right">
-      <span>责任编辑 : {{ detailList.author }}</span>
+
+    <div style="margin-bottom: 60px; margin-top:15px; float: right">
+      <span>（ 责任编辑 : {{ detailList.author }} ）</span>
     </div>
+
+    <!-- 回到顶部 -->
     <div>
+      <el-backtop
+          style="
+      background-color:#ffffff;
+      color: #ffc200"
+          :right="100" :bottom="100"/>
+      <!--
+      自定义回到顶部
       <el-backtop :bottom="100">
         <div style="
         height: 100%;
@@ -37,43 +46,62 @@
           </el-icon>
         </div>
       </el-backtop>
+      -->
     </div>
+  </div>
+
+  <div>
+    <!-- 其他内容 -->
+    <right-sidebar ref="rightSidebar"/>
+    <el-button type='primary' style='background-color: #ffc200; color: #332f2f; border-color: #ffc200;'
+               title='启用' size="large" class="float-button" circle
+               @click="showRightSidebar(detailList.hid)">
+      <el-icon :size="25" :color="white">
+        <Promotion/>
+      </el-icon>
+    </el-button>
   </div>
 </template>
 
 <script>
 import {defineComponent} from 'vue'
+import RightSidebar from "./RightSidebar.vue";
 
 export default defineComponent({
   name: 'Detail',
+  components: {
+    RightSidebar
+  },
+  methods: {
+    showRightSidebar(id) {
+      this.$refs.rightSidebar.toggle(id);
+    }
+  }
 })
 </script>
+
 <script setup>
 import {getshowHeadlineDetail} from "../../api/index"
 import {ref, onMounted} from "vue"
 import {useRoute} from 'vue-router'
-import {useUserInfoStore} from "../../stores/userInfo.js";
-import pinia from "../../stores/index.js";
 
 const route = useRoute() // 路由信息对象
-
-const userInfoStore = useUserInfoStore(pinia)
-const nickName = userInfoStore.nickName
-
 const detailList = ref({}) //详情数据
-//获取详情初始化数据
+
+// 获取详情初始化数据
 const getDetailList = async () => {
   let result = await getshowHeadlineDetail(route.query.hid)
   detailList.value = result.headline
 }
+
 // 页面初始化钩子
 onMounted(() => {
   getDetailList()
 })
+
 </script>
 
 <style lang="less" scoped>
-
 .Details {
   width: 860px;
   margin: 0 auto;
@@ -98,6 +126,12 @@ onMounted(() => {
     line-height: 1.8; /* 这将使行高为字体大小的1.5倍 */
     font-size: 20px;
   }
-
 }
+
+.float-button {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+}
+
 </style>

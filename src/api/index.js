@@ -1,7 +1,6 @@
 import request from "../utils/request/"
 
-// portal/findAllTypes
-//获取分类列表
+// 获取分类列表
 export const getfindAllTypes = () => {
     return request.get("portal/findAllTypes");
 };
@@ -21,8 +20,7 @@ export const getshowHeadlineDetail = (id) => {
     });
 };
 
-//删除的回调
-// headline/removeByHid
+// 删除的回调
 export const removeByHid = (id) => {
     return request({
         method: "post",
@@ -34,16 +32,16 @@ export const removeByHid = (id) => {
     })
 };
 
-//登录的接口
+// 登录
 export const getLogin = (info) => {
     return request.post("user/login", info);
 };
-//获取用户信息的接口
+// 获取用户信息
 export const getUserInfo = (info) => {
     return request.get("user/getUserInfo");
 };
 
-//注册校验的接口  user/checkUserName
+// 注册校验
 export const registerValidateApi = (username) => {
     return request({
         method: "post",
@@ -55,16 +53,16 @@ export const registerValidateApi = (username) => {
     })
 };
 
-// 注册的接口
+// 注册
 export const registerApi = (userInfo) => {
     return request.post("user/regist", userInfo)
 }
-// 判断用户登录过期的接口
+// 判断用户登录过期
 export const isUserOverdue = () => {
     return request.get("user/checkLogin")
 }
 
-// 修改头条回显的接口
+// 修改头条回显
 export const getFindHeadlineByHid = (id) => {
     return request({
         method: "post",
@@ -76,14 +74,26 @@ export const getFindHeadlineByHid = (id) => {
     });
 };
 
-//点击保存修改的回调
-// headline/update
+// 对新闻做总结
+export const getHeadlineSummary = (id) => {
+    return request({
+        method: "post",
+        url: "ai/summary",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        },
+        data: `hid=${id}`
+    });
+}
+
+// 点击保存修改的回调
 export const saveOrAddNews = (news) => {
     return request.post("headline/update", news)
 }
 
-// headline/publish
+// 发布头条信息
 export const issueNews = (news) => {
     return request.post("headline/publish", news)
 }
+
 

@@ -61,6 +61,7 @@ export default defineComponent({
   name: 'HeadlineNews'
 })
 </script>
+
 <script setup>
 import {ref, onMounted, getCurrentInstance, watch} from "vue"
 import {useRouter} from 'vue-router'

@@ -159,7 +159,7 @@ const handlerNews = async () => {
 .headerContainer {
   width: 100%;
   height: 70px;
-  background: #212529;
+  background: #141618;
   /*background: #212529;*/
   display: flex;
   justify-content: space-around;

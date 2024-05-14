@@ -79,7 +79,7 @@ const formData = ref({
   article: "", // 文章内容
   type: ""     // 文章类别
 })
-//初始化文章类别数据
+// 初始化文章类别数据
 const article = [
   {
     type: "1",
@@ -119,23 +119,23 @@ onMounted(() => {
 const handlerCancel = () => {
   router.back()
 }
-//点击保存的回调
+// 点击保存的回调
 const handlerSave = async () => {
   await formRef.value?.validate()
-  //发送请求判断用户是否token过期
+  // 发送请求判断用户是否token过期
   await isUserOverdue()
   const Obj = {...formData.value}
 
-  //整理请求参数
-//  Obj.hid = userInfoStore.uid.toString()  //添加用户id 让后端知道谁添加的
+  // 整理请求参数
+  // Obj.hid = userInfoStore.uid.toString()  //添加用户id 让后端知道谁添加的
   Obj.hid = route.query.hid  //添加用户id 让后端知道谁添加的
-// 判断type类型
+  // 判断type类型
   if (Obj.type == "新闻") Obj.type = "1"
   if (Obj.type == "体育") Obj.type = "2"
   if (Obj.type == "娱乐") Obj.type = "3"
   if (Obj.type == "科技") Obj.type = "4"
   if (Obj.type == "其他") Obj.type = "5"
-  //发送请求
+  // 发送请求
   if (route.query.hid) {
     await saveOrAddNews(Obj)
     ElMessage.success("修改成功")
