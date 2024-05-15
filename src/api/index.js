@@ -1,4 +1,6 @@
 import request from "../utils/request/"
+import pinia from "../stores/index.js";
+import {useUserInfoStore} from "../stores/userInfo.js";
 
 // 获取分类列表
 export const getfindAllTypes = () => {
@@ -8,16 +10,26 @@ export const getfindAllTypes = () => {
 export const getfindNewsPageInfo = (info) => {
     return request.post("portal/findNewsPage", info);
 };
+
 // 查看头条详情
 export const getshowHeadlineDetail = (id) => {
+
+    // 获取用户id
+    const userInfoStore = useUserInfoStore(pinia)
+    const uid = userInfoStore.uid
     return request({
         method: "post",
         url: "portal/showHeadlineDetail",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
         },
-        data: `hid=${id}`
+        data: `hid=${id}&uid=${uid}`
     });
+};
+
+// 查询浏览历史
+export const findHistory = (info) => {
+    return request.post("headline/history", info);
 };
 
 // 删除的回调
@@ -60,6 +72,11 @@ export const registerApi = (userInfo) => {
 // 判断用户登录过期
 export const isUserOverdue = () => {
     return request.get("user/checkLogin")
+}
+
+// 修改密码
+export const editPassword = (data) => {
+    return request.post("/user/editPassword", data)
 }
 
 // 修改头条回显

@@ -88,6 +88,7 @@ import {useRoute} from 'vue-router'
 const route = useRoute() // 路由信息对象
 const detailList = ref({}) // 详情数据
 
+
 // 获取详情初始化数据
 const getDetailList = async () => {
   let result = await getshowHeadlineDetail(route.query.hid)

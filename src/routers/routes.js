@@ -22,15 +22,21 @@ export const staticRoutes = [
         name: "Login",
     },
     {
-        //注册
+        // 注册
         path: "/register",
         component: () => import("../pages/Register/index.vue"),
         name: "Register",
     },
     {
-        //发布新闻的页面
+        // 发布新闻的页面
         path: "/addormodifynews",
         component: () => import("../pages/addOrModifyNews/index.vue"),
         name: "addOrModifyNews",
+    },
+    {
+        // 浏览历史
+        path: "/browsinghistory",
+        component: () => import("../pages/BrowsingHstory/index.vue"),
+        name: "BrowsingHistory",
     },
 ];

@@ -33,8 +33,8 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="handlerNews">发布新闻</el-dropdown-item>
-                <el-dropdown-item>个人中心</el-dropdown-item>
-                <el-dropdown-item>浏览记录</el-dropdown-item>
+                <!-- <el-dropdown-item>个人中心</el-dropdown-item> -->
+                <el-dropdown-item @click="handlerHistory">浏览记录</el-dropdown-item>
                 <el-dropdown-item @click="Logout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -132,11 +132,16 @@ const Logout = () => {
   router.push({name: "HeadlineNews"});
 }
 
-// 点击发布新闻的回调
+// 点击发布新闻
 const handlerNews = async () => {
   // 发送请求判断用户是否token过期
   await isUserOverdue()
   router.push({name: "addOrModifyNews"});
+}
+
+// 浏览历史
+const handlerHistory = () => {
+  router.push({name: "BrowsingHistory"});
 }
 </script>
 

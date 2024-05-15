@@ -12,7 +12,7 @@ const service = axios.create({
 
 // 添加请求拦截器
 service.interceptors.request.use((config) => {
-    NProgress.start()//开启进度条
+    NProgress.start()// 开启进度条
     // 如果有token, 通过请求头携带给后台
     const userInfoStore = useUserInfoStore(pinia) // 如果不是在组件中调用,必须传入pinia
     const token = userInfoStore.token
@@ -40,8 +40,11 @@ service.interceptors.response.use(
 
         if (response.data.code !== 200) {
             // 判断响应状态码(全局异常处理,response.data.code统一返回为0)
+            // if (response.status === 401) return Promise.reject(ElMessage.error("登录已过期,请登录"))
             if (response.data.code === 0) return Promise.reject(ElMessage.error(response.data.message))
-            else if (response.data.code === 504) return Promise.reject(ElMessage.error("登录已过期"))
+            else if (response.data.code === 504) {
+                return Promise.reject(ElMessage.error("登录已过期,请登录"))
+            }
         } else {
             return response.data.data; /* 返回成功响应数据中的data属性数据 */
         }
