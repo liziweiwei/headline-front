@@ -24,7 +24,8 @@
       <el-timeline style="max-width: 600px">
         <el-timeline-item :timestamp="item.browsingTime"
                           :size="'large'"
-                          :color="item.type === 1 ? '#409EFF' : item.type === 2 ? '#67C23A' : item.type === 3 ? '#E6A23C' : item.type === 4 ? '#F56C6C' : '#909399'"
+                          :color="item.type === 1 ? '#1c8dff' : item.type === 2 ?
+                          '#6afd23' : item.type === 3 ? '#ff9d00' : item.type === 4 ? '#f54242' : '#9c0eff'"
                           placement="top"
                           v-for="item in pageData"
                           :key="item.hid">
@@ -66,19 +67,6 @@
           <!-- </div>-->
         </el-timeline-item>
       </el-timeline>
-
-      <!-- 分页器 -->
-      <div style="margin-top: 20px">
-        <el-pagination
-            v-model:current-page="findNewsPageInfo.pageNum"
-            v-model:page-size="findNewsPageInfo.pageSize"
-            @size-change="getPageList"
-            @current-change="getPageList"
-            :page-sizes="[7,12,20]"
-            background
-            layout="total, sizes, prev, pager, next , ->"
-            :total="totalSize"/>
-      </div>
     </div>
   </div>
 </template>
@@ -107,13 +95,9 @@ const uid = userInfoStore.uid
 const findNewsPageInfo = ref(
     {
       keyWords: "", // 搜索标题关键字
-      type: 0,           // 新闻类型
-      pageNum: 1,        // 页码数
-      pageSize: 7,     // 页大小
-      uid: ''           // 用户id
+      uid: ''       // 用户id
     }
 )
-const totalSize = ref(0) //分页总数量
 // 初始化列表数据
 const pageData = ref([{
   hid: null,
@@ -130,39 +114,10 @@ findNewsPageInfo.value.keyWords = keywords
 // 添加用户id
 findNewsPageInfo.value.uid = uid
 
-
-// 接收header组件用户搜索的数据
-// Bus.on('keyword', (keywords) => {
-//   findNewsPageInfo.value.keyWords = keywords
-// })
-
-// header点击切换高亮的时候传递过来的tid
-// Bus.on('tid', (type) => {
-//   findNewsPageInfo.value.type = type
-// })
-
-// 监视初始化参数type的变化,当type发生改变的时候重新发送请求获取列表数据
-// watch(() => findNewsPageInfo.value, () => {
-//   getPageList()
-// }, {
-//   deep: true,
-// })
-
-// 初始化请求分页列表数据
-// const getPageList = async () => {
-//   let result = await getfindNewsPageInfo(findNewsPageInfo.value)
-//   pageData.value = result.pageInfo.pageData
-//   findNewsPageInfo.value.pageNum = result.pageInfo.pageNum
-//   findNewsPageInfo.value.pageSize = result.pageInfo.pageSize
-//   totalSize.value = +result.pageInfo.totalSize
-// }
 // 初始化请求分页列表数据
 const getPageList = async () => {
   let result = await findHistory(findNewsPageInfo.value)
   pageData.value = result.pageInfo.pageData
-  findNewsPageInfo.value.pageNum = result.pageInfo.pageNum
-  findNewsPageInfo.value.pageSize = result.pageInfo.pageSize
-  totalSize.value = +result.pageInfo.totalSize
 }
 
 // 组件挂载的生命周期钩子,组件挂载完成后执行的函数
@@ -203,7 +158,6 @@ const Modify = (hid) => {
   justify-content: space-around;
 
   .left {
-
   }
 
   .right {
