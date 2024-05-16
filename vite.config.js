@@ -8,7 +8,7 @@ export default defineConfig(
             plugins: [vue()],
             // 这个不用一点点写, 但每个配置都要理解
             server: {
-                port: 8005,
+                port: 8008,
                 open: true,
                 proxy: {
                     '/app-dev': {

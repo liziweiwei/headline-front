@@ -1,14 +1,18 @@
 <template>
   <div class="headerContainer">
     <div class="left">
+      <el-icon :size="25" :color="'#d22525'">
+        <Clock/>
+      </el-icon>
+      <span>历史记录</span>
     </div>
     <div class="right">
-      <div class="rightInput" style="margin-right: 50px;">
+      <div class="rightInput">
         <el-input v-model="keywords" placeholder="搜索历史记录"></el-input>
         <el-button type='primary'
                    style="
                    margin-left: 20px;
-                       background: #ffc107; color: #684802;border-color: #ffc107;
+                       background: #ffc107; color: #312d27;border-color: #ffc107;
                        height: 35px;
                        font-size: 16px;
                        font-weight: 550;
@@ -30,41 +34,48 @@
                           v-for="item in pageData"
                           :key="item.hid">
           <el-card class="containerItem">
-            <!-- <div class="containerItem" v-for="item in pageData" :key="item.hid"> -->
             <div>
           <span class="text" style="font-size: 22px;font-weight: 550;">
             {{ item.title }}
           </span>
+              <el-button @click="toDetail(item.hid)"
+                         type="success"
+                         size="small"
+                         style="float: right" plain>
+                <el-icon :size="17" :color="white">
+                  <More/>
+                </el-icon>
+              </el-button>
             </div>
             <div class="detail">
               <el-tag type="success">{{
                   item.type === 1 ? "新闻" : item.type === 2 ? "体育" : item.type === 3 ? "娱乐" : item.type === 4 ? "科技" : "其他"
                 }}
               </el-tag>
-              <el-tag type="warning">{{ item.pageViews }}浏览</el-tag>
+              <!-- <el-tag type="warning">{{ item.pageViews }}浏览</el-tag>-->
               <el-tag type="info">{{ item.pastHours }}小时前</el-tag>
-            </div>
-            <div>
-              <el-button @click="toDetail(item.hid)" size="small"
-                         style="background: #198754; margin-left: 15px; color: #FAFCFF">查看全文
-              </el-button>
-              <el-popconfirm v-if="item.publisher === uid" @confirm="handlerDelete(item.hid)"
+
+              <span style="margin-left: 500px;font-size: 15px; font-weight: 550">
+                {{ item.author }} |</span>
+              <span style="margin-left: 0; font-size: 15px; font-weight: 550"> 来源
+                      <a href="https://www.toutiao.com/">头条新闻</a>
+              </span>
+              <el-popconfirm @confirm="handlerDelete(item.id)"
                              :title="`您确定要删除${item.title}`">
                 <template #reference>
-                  <el-button size="small" style="background: #dc3545; color: #FAFCFF; float: right; margin-right: 30px">
-                    删除
+                  <el-button
+                      type="danger"
+                      size="small"
+                      style=" float: right"
+                      plain>
+                    <el-icon :size="17" :color="white">
+                      <Delete/>
+                    </el-icon>
                   </el-button>
                 </template>
               </el-popconfirm>
-
-              <el-button @click="Modify(item.hid)"
-                         v-if="item.publisher === uid"
-                         size="small"
-                         style="background: #212529; color: #FAFCFF; float: right">修改
-              </el-button>
             </div>
           </el-card>
-          <!-- </div>-->
         </el-timeline-item>
       </el-timeline>
     </div>
@@ -72,7 +83,6 @@
 </template>
 
 <script>
-import {removeByHid} from "../../api/index"
 import {defineComponent} from 'vue'
 
 export default defineComponent({
@@ -86,7 +96,8 @@ import {useRouter} from 'vue-router'
 import {ElMessage} from 'element-plus'
 import pinia from '../../stores/index';
 import {useUserInfoStore} from '../../stores/userInfo'
-import {findHistory} from "../../api/index.js";
+import {deleteHistory, findHistory} from "../../api/index.js";
+import {Clock, Delete, More} from "@element-plus/icons-vue";
 
 const {Bus} = getCurrentInstance().appContext.config.globalProperties
 const userInfoStore = useUserInfoStore(pinia)
@@ -100,6 +111,7 @@ const findNewsPageInfo = ref(
 )
 // 初始化列表数据
 const pageData = ref([{
+  id: null,
   hid: null,
   pageViews: null,
   pastHours: null,
@@ -136,11 +148,14 @@ const toDetail = (hid) => {
 
 // 点击删除的回调
 const handlerDelete = async (id) => {
-  await removeByHid(id)
+  // await removeByHid(id)
+  // ElMessage.success('删除成功!')
+  await deleteHistory(id)
   ElMessage.success('删除成功!')
   //重新获取列表请求
   getPageList()
 }
+
 
 //点击修改的回调
 const Modify = (hid) => {
@@ -158,6 +173,15 @@ const Modify = (hid) => {
   justify-content: space-around;
 
   .left {
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-left: 10px;
+      color: #000000;
+      font-size: 20px;
+      font-weight: 600;
+    }
   }
 
   .right {
@@ -176,7 +200,7 @@ const Modify = (hid) => {
 
       :deep(.el-input__inner) {
         height: 35px;
-        width: 180px;
+        width: 250px;
       }
     }
 
@@ -210,10 +234,10 @@ const Modify = (hid) => {
       border-radius: 10px;
       border: 2px solid #ebebeb;
       width: 1000px;
-      height: 150px;
+      height: 125px;
 
       .el-button {
-        margin-top: 5px;
+        margin-top: 10px;
       }
 
       div {
@@ -227,9 +251,9 @@ const Modify = (hid) => {
 
       .detail {
         span {
-          margin-top: 7px;
+          margin-top: 10px;
           margin-left: 15px;
-          color: #443f44;
+          color: #3b383b;
           font-size: 14px;
         }
       }

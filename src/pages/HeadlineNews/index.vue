@@ -28,7 +28,6 @@
               </el-button>
             </template>
           </el-popconfirm>
-
           <el-button @click="Modify(item.hid)"
                      v-if="item.publisher === uid"
                      size="small"

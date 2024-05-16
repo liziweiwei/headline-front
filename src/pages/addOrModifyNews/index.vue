@@ -20,7 +20,7 @@
     <el-form-item>
       <el-button type="primary" @click="handlerSave" class="savebtn">保存</el-button>
       <el-button @click="handlerCancel" class="quitbtn">取消</el-button>
-      <el-button v-if="!loading" @click="handlePolish" class="edidbtn">润色</el-button>
+      <el-button v-if="!loading" @click="handlePolish" class="edidbtn" :icon="MagicStick">润色</el-button>
       <el-button v-if='loading' type="primary" class="edidbtn">
         <span slot="loading">
           <span>润色中...</span>
@@ -36,16 +36,6 @@ import {isUserOverdue} from '../../api/index'
 
 export default defineComponent({
   name: 'AddNews',
-  // data() {
-  //   return {
-  //     loading: false,
-  //   }
-  // },
-  // methods: {
-  //   handlePolish() {
-  //     this.loading = true
-  //   }
-  // }
 })
 </script>
 
@@ -55,7 +45,11 @@ import {ref, onMounted} from "vue"
 import {useRoute} from 'vue-router'
 import {useRouter} from 'vue-router'
 import {ElMessage} from 'element-plus'
+import {MagicStick} from "@element-plus/icons-vue";
+// 引入loading加载
+import {ElLoading} from 'element-plus'
 
+const fullscreenLoading = ref(false)
 const router = useRouter()
 const route = useRoute()
 
@@ -133,6 +127,7 @@ const handlePolish = async () => {
     message: '新闻润色完成！',
     type: 'success',
   })
+  fullscreenLoading.value = false
   loading.value = false
 }
 // 如果是点击修改的话 路由就会携带hid参数  就要发送请求 获取数据回显
@@ -227,7 +222,7 @@ const handlerSave = async () => {
   border-color: #ffc200;
   margin-left: 120px;
   font-size: 16px;
-  /*font-weight: 600;*/
+  font-weight: 550;
   padding: 17px 24px !important;
 
   &:hover,

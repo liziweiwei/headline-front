@@ -32,6 +32,17 @@ export const findHistory = (info) => {
     return request.post("headline/history", info);
 };
 
+// 删除一条历史记录
+export const deleteHistory = (id) => {
+    return request({
+        method: "post",
+        url: "headline/removehistory",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        },
+        data: `id=${id}`
+    })
+};
 // 删除的回调
 export const removeByHid = (id) => {
     return request({
