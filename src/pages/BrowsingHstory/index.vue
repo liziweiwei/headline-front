@@ -10,9 +10,9 @@
       <div class="rightInput">
         <el-input v-model="keywords" placeholder="搜索历史记录"></el-input>
         <el-button type='primary'
+                   class="searchbtn"
                    style="
                    margin-left: 20px;
-                       background: #ffc107; color: #312d27;border-color: #ffc107;
                        height: 35px;
                        font-size: 16px;
                        font-weight: 550;
@@ -48,7 +48,7 @@
               </el-button>
             </div>
             <div class="detail">
-              <el-tag type="success">{{
+              <el-tag type="primary">{{
                   item.type === 1 ? "新闻" : item.type === 2 ? "体育" : item.type === 3 ? "娱乐" : item.type === 4 ? "科技" : "其他"
                 }}
               </el-tag>
@@ -222,7 +222,7 @@ const Modify = (hid) => {
 .container {
   margin-top: 20px;
   width: 1200px;
-  margin-left: 40vh;
+  margin-left: 30vh;
   display: flex;
   flex-direction: column;
   /*align-items: center;*/
@@ -233,7 +233,7 @@ const Modify = (hid) => {
       margin-top: 20px;
       border-radius: 10px;
       border: 2px solid #ebebeb;
-      width: 1000px;
+      width: 1150px;
       height: 125px;
 
       .el-button {
@@ -268,6 +268,19 @@ const Modify = (hid) => {
   font-size: 16px;
   font-weight: 550;
   color: #000000;
+}
+
+.searchbtn {
+  background: #ffc200;
+  color: #000000;
+  border-color: #ffc200;
+
+  &:hover,
+  &:focus {
+    background: #e5d5ae;
+    color: #000000;
+    border-color: #e5d5ae;
+  }
 }
 
 </style>

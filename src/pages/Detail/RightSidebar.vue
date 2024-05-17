@@ -69,7 +69,7 @@ export default {
   top: 0;
   width: 500px;
   height: 100%;
-  background-color: #dfdfe1;
+  background-color: #eaeefa;
   z-index: 999;
   border-radius: 16px; /* 设置圆角，右上角和右下角为8px，左上角为0px */
 }

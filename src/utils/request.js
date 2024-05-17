@@ -4,6 +4,7 @@ import pinia from '../stores/index';
 import {useUserInfoStore} from '../stores/userInfo';
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import router from "../routers/index.js";
 // 配置新建一个 axios 实例
 const service = axios.create({
     baseURL: "/app-dev/",
@@ -26,7 +27,8 @@ service.interceptors.request.use((config) => {
 // 添加响应拦截器
 service.interceptors.response.use(
     (response) => {
-        NProgress.done()//关闭进度条
+        // 关闭进度条
+        NProgress.done()
 
         // if(response.data.code !== 200){
         // // 判断响应状态码
@@ -40,17 +42,20 @@ service.interceptors.response.use(
 
         if (response.data.code !== 200) {
             // 判断响应状态码(全局异常处理,response.data.code统一返回为0)
-            // if (response.status === 401) return Promise.reject(ElMessage.error("登录已过期,请登录"))
             if (response.data.code === 0) return Promise.reject(ElMessage.error(response.data.message))
             else if (response.data.code === 504) {
+                // 跳转到登陆界面
+                router.push("/login")
                 return Promise.reject(ElMessage.error("登录已过期,请登录"))
             }
         } else {
-            return response.data.data; /* 返回成功响应数据中的data属性数据 */
+            // 返回成功响应数据中的data属性数据
+            return response.data.data;
         }
     },
     (error) => {
-        NProgress.done()//关闭进度条
+        // 关闭进度条
+        NProgress.done()
         return Promise.reject(error.message);
     }
 );
