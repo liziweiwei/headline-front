@@ -46,8 +46,6 @@ import {useRoute} from 'vue-router'
 import {useRouter} from 'vue-router'
 import {ElMessage} from 'element-plus'
 import {MagicStick} from "@element-plus/icons-vue";
-// 引入loading加载
-import {ElLoading} from 'element-plus'
 
 const fullscreenLoading = ref(false)
 const router = useRouter()

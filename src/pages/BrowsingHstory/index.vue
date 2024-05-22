@@ -52,11 +52,11 @@
                   item.type === 1 ? "新闻" : item.type === 2 ? "体育" : item.type === 3 ? "娱乐" : item.type === 4 ? "科技" : "其他"
                 }}
               </el-tag>
-              <!-- <el-tag type="warning">{{ item.pageViews }}浏览</el-tag>-->
               <el-tag type="info">{{ item.pastHours }}小时前</el-tag>
 
-              <span style="margin-left: 500px;font-size: 15px; font-weight: 550">
-                {{ item.author }} |</span>
+              <span style="margin-left: 550px; font-size: 15px; font-weight: 550">
+                {{ item.author }} |
+              </span>
               <span style="margin-left: 0; font-size: 15px; font-weight: 550"> 来源
                       <a href="https://www.toutiao.com/">头条新闻</a>
               </span>
@@ -148,8 +148,6 @@ const toDetail = (hid) => {
 
 // 点击删除的回调
 const handlerDelete = async (id) => {
-  // await removeByHid(id)
-  // ElMessage.success('删除成功!')
   await deleteHistory(id)
   ElMessage.success('删除成功!')
   //重新获取列表请求
@@ -233,7 +231,7 @@ const Modify = (hid) => {
       margin-top: 20px;
       border-radius: 10px;
       border: 2px solid #ebebeb;
-      width: 1150px;
+      width: 1110px;
       height: 125px;
 
       .el-button {
@@ -251,7 +249,7 @@ const Modify = (hid) => {
 
       .detail {
         span {
-          margin-top: 10px;
+          margin-top: 12px;
           margin-left: 15px;
           color: #3b383b;
           font-size: 14px;

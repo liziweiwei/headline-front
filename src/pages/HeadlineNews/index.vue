@@ -43,7 +43,7 @@
             v-model:page-size="findNewsPageInfo.pageSize"
             @size-change="getPageList"
             @current-change="getPageList"
-            :page-sizes="[5,7,10]"
+            :page-sizes="[5,7,10,20]"
             background
             layout="total, sizes, prev, pager, next , ->"
             :total="totalSize"/>
