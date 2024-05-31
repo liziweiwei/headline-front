@@ -108,9 +108,11 @@ export const getHeadlineSummary = (id) => {
         method: "post",
         url: "ai/summary",
         headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+            "Content-Type": "application/json",
         },
-        data: `hid=${id}`
+        data: {
+            hid: id,
+        }
     });
 }
 
@@ -120,9 +122,11 @@ export const getHeadlinePolish = (id) => {
         method: "post",
         url: "ai/polish",
         headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+            "Content-Type": "application/json",
         },
-        data: `hid=${id}`
+        data: {
+            hid: id,
+        }
     });
 }
 
